@@ -1,4 +1,2 @@
-import { IOptions } from './IOptions';
-import { Litepicker } from './litepicker';
-
-export { Litepicker, IOptions };
+export { IOptions } from './IOptions';
+export { Litepicker } from './litepicker';

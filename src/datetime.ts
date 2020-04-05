@@ -11,10 +11,10 @@ export class DateTime extends Date {
       const match = format.match(/\[([^\]]+)]|Y{2,4}|M{1,4}|D{1,2}|d{1,4}/g);
       if (match) {
         const datePattern = {
-          year: 1,
-          month: 2,
           day: 3,
+          month: 2,
           value: '',
+          year: 1,
         };
         let shortMonths = null;
         let longMonths = null;
