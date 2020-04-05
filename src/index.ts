@@ -1,4 +1,5 @@
 import { Litepicker } from './litepicker';
-import './methods';
+
+const picker = new Litepicker({});
 
 export { Litepicker };

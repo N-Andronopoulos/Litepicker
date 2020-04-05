@@ -1,53 +1,55 @@
 import { DateTime } from './datetime';
+import { IOptions } from './IOptions';
 import * as style from './scss/main.scss';
 
 export class Calendar {
-  protected options: any = {
+  protected options: IOptions = {
     element: null,
     elementEnd: null,
-    parentEl: null,
+    endDate: null,
     firstDay: 1,
     format: 'YYYY-MM-DD',
     lang: 'en-US',
-    numberOfMonths: 1,
     numberOfColumns: 1,
+    numberOfMonths: 1,
+    parentEl: null,
     startDate: null,
-    endDate: null,
     zIndex: 9999,
 
-    minDate: null,
-    maxDate: null,
-    minDays: null,
-    maxDays: null,
-    selectForward: false,
-    selectBackward: false,
-    splitView: false,
     inlineMode: false,
+    maxDate: null,
+    maxDays: null,
+    minDate: null,
+    minDays: null,
+    selectBackward: false,
+    selectForward: false,
     singleMode: true,
-    autoApply: true,
+    splitView: false,
+
     allowRepick: false,
-    showWeekNumbers: false,
-    showTooltip: true,
-    hotelMode: false,
+    autoApply: true,
     disableWeekends: false,
-    scrollToDate: true,
+    hotelMode: false,
     mobileFriendly: true,
+    scrollToDate: true,
+    showTooltip: true,
+    showWeekNumbers: false,
     useResetBtn: false,
 
-    lockDaysFormat: 'YYYY-MM-DD',
-    lockDays: [],
     disallowLockDaysInRange: false,
+    lockDays: [],
+    lockDaysFormat: 'YYYY-MM-DD',
     lockDaysInclusivity: '[]',
 
-    bookedDaysFormat: 'YYYY-MM-DD',
-    bookedDays: [],
-    disallowBookedDaysInRange: false,
-    bookedDaysInclusivity: '[]',
     anyBookedDaysAsCheckout: false,
+    bookedDays: [],
+    bookedDaysFormat: 'YYYY-MM-DD',
+    bookedDaysInclusivity: '[]',
+    disallowBookedDaysInRange: false,
 
     dropdowns: {
-      minYear: 1990,
       maxYear: null,
+      minYear: 1990,
       months: false,
       years: false,
     },
@@ -55,8 +57,8 @@ export class Calendar {
     buttonText: {
       apply: 'Apply',
       cancel: 'Cancel',
-      previousMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
       nextMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
+      previousMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
       reset: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
@@ -68,14 +70,15 @@ export class Calendar {
     },
 
     // Events
-    onShow: null,
-    onHide: null,
-    onSelect: null,
-    onError: null,
-    onRender: null,
     onChangeMonth: null,
     onChangeYear: null,
+    onError: null,
+    onHide: null,
+    onRender: null,
+    onSelect: null,
+    onShow: null,
 
+    footerHTML: null,
     resetBtnCallback: null,
   };
   protected calendars: DateTime[] = [];
@@ -215,8 +218,8 @@ export class Calendar {
       for (let x = maxYear; x >= minYear; x -= 1) {
         const option = document.createElement('option');
         const optionYear = new DateTime(new Date(x, 0, 1, 0, 0, 0));
-        option.value = x;
-        option.text = x;
+        option.value = String(x);
+        option.text = String(x);
         option.disabled = (this.options.minDate
           && optionYear.isBefore(new DateTime(this.options.minDate), 'month'))
           || (this.options.maxDate && optionYear.isBefore(new DateTime(this.options.maxDate), 'month'));

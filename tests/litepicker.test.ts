@@ -1,15 +1,15 @@
-import { Litepicker } from '../src/index';
+import { Litepicker } from '../src';
 
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
+    addEventListener: jest.fn(),
+    addListener: jest.fn(), // deprecated
+    dispatchEvent: jest.fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(), // deprecated
-    removeListener: jest.fn(), // deprecated
-    addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    removeListener: jest.fn(), // deprecated
   };
 });
 
@@ -22,16 +22,17 @@ endDate.setDate(endDate.getDate() + 7);
 
 test('Litepicker singleMode - init with Date/UnixTimestamp/String', () => {
   // Date object
+  const element = document.getElementById('datepicker');
   let picker = new Litepicker({
-    element: document.getElementById('datepicker'),
-    startDate: startDate,
+    element,
+    startDate,
   });
   expect(picker.getDate().toDateString() === startDate.toDateString()).toBe(true);
   picker.destroy();
 
   // Unix timestamp
   picker = new Litepicker({
-    element: document.getElementById('datepicker'),
+    element,
     startDate: startDate.getTime(),
   });
   expect(picker.getDate().toDateString() === startDate.toDateString()).toBe(true);
@@ -50,10 +51,11 @@ test('Litepicker singleMode - init with Date/UnixTimestamp/String', () => {
 
 test('Litepicker date range - init with Date/UnixTimestamp/String', () => {
   // Date object
+  const element = document.getElementById('datepicker');
   let picker = new Litepicker({
-    element: document.getElementById('datepicker'),
-    startDate: startDate,
-    endDate: endDate,
+    element,
+    endDate,
+    startDate,
   });
   expect(picker.getStartDate().toDateString() === startDate.toDateString()
     && picker.getEndDate().toDateString() === endDate.toDateString()).toBe(true);
@@ -62,8 +64,8 @@ test('Litepicker date range - init with Date/UnixTimestamp/String', () => {
   // Unix timestamp
   picker = new Litepicker({
     element: document.getElementById('datepicker'),
-    startDate: startDate.getTime(),
     endDate: endDate.getTime(),
+    startDate: startDate.getTime(),
   });
   expect(picker.getStartDate().toDateString() === startDate.toDateString()
     && picker.getEndDate().toDateString() === endDate.toDateString()).toBe(true);
@@ -76,8 +78,8 @@ test('Litepicker date range - init with Date/UnixTimestamp/String', () => {
   const dayEnd = `0${endDate.getDate()}`.slice(-2);
   picker = new Litepicker({
     element: document.getElementById('datepicker'),
-    startDate: `${startDate.getFullYear()}-${monthStart}-${dayStart}`,
     endDate: `${endDate.getFullYear()}-${monthEnd}-${dayEnd}`,
+    startDate: `${startDate.getFullYear()}-${monthStart}-${dayStart}`,
   });
   expect(picker.getStartDate().toDateString() === startDate.toDateString()
     && picker.getEndDate().toDateString() === endDate.toDateString()).toBe(true);
