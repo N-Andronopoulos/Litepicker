@@ -1,5 +1,4 @@
+import { IOptions } from './IOptions';
 import { Litepicker } from './litepicker';
 
-const picker = new Litepicker({});
-
-export { Litepicker };
+export { Litepicker, IOptions };
